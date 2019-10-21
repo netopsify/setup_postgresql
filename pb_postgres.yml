@@ -1,0 +1,61 @@
+---
+- hosts: db
+  become: yes
+  pre_tasks:
+    - name: Include Vars
+      include_vars: vars/main.yml
+
+    - name: Change hostname
+      hostname:
+        name: "{{ inventory_hostname }}"
+
+    - name: Open firewall ports for postgresql
+      firewalld:
+        port: "{{ postgresql_port }}/tcp"
+        permanent: yes
+        state: enabled
+
+    - name: Bounce firewalld
+      service:
+        name: firewalld
+        state: restarted
+
+    # - name: Debug
+    #   debug:
+    #     var: hostvars['postgresql1']
+    #   when: debug is defined
+
+    # - name: Ensure Directory exist for hostvars
+    #   file:
+    #     path: "{{ playbook_dir }}/runtime_vars"
+    #     state: directory
+    #   delegate_to: localhost
+    #   when: debug is defined
+
+    # - name: Delete existing file.
+    #   file:
+    #     path: "{{ playbook_dir }}/runtime_vars/postgresql1.json"
+    #     state: absent
+    #   delegate_to: localhost
+    #   when: debug is defined
+
+    # - name: Ensure file exist for hostvars
+    #   file:
+    #     path: "{{ playbook_dir }}/runtime_vars/postgresql1.json"
+    #     state: touch
+    #   delegate_to: localhost
+    #   when: debug is defined
+
+    # - local_action: copy dest="{{ playbook_dir }}/runtime_vars/postgresql1.json" content="{{ hostvars['postgresql1'] | to_nice_json }}"
+    #   when: debug is defined
+
+    # - name: Update /etc/hosts from inventory
+    #   lineinfile: dest=/etc/hosts regexp='.*{{item}}$' line='{{ hostvars[item].ansible_host }} {{item}}' state=present
+    #   with_items: '{{ansible_play_hosts}}'
+    #   tags:
+    #     - hosts
+
+  roles: 
+    - role: holms.fqdn
+    # - role: anxs.postgresql
+    - role: postgresql

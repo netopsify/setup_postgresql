@@ -1,0 +1,3 @@
+ansible_user: root
+ansible_password: "{{lookup('env', 'PASSWORD')}}"
+ansible_become: true

@@ -1,0 +1,14 @@
+postgresql1 ansible_host=192.168.189.151
+postgresql2 ansible_host=192.168.189.152
+postgresql3 ansible_host=192.168.189.153
+
+[servers]
+postgresql1
+postgresql2
+postgresql3
+
+[db:children]
+servers
+
+[postgres_cluster:children]
+servers
