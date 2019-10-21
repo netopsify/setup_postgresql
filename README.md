@@ -1,5 +1,8 @@
 # Setting up Postgresql DB on Centos host
 
+Though these steps can be used to deploy/configure postgresql cluster on any linux platform due the increadible roles built by anx team.
+I recently had a need to setup on Centos with version 9.6 and had to make some changes to it. Hence it provides a good reference for Centos 7.x.
+
 ## Pre-requisites
 
 ### Ansible Controller
